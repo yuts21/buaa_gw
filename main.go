@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-func get_jsonp(req_url string, params url.Values) (map[string]any, error) {
+func getJsonp(req_url string, params url.Values) (map[string]any, error) {
 	req, err := url.Parse(req_url)
 	if err != nil {
 		return map[string]any{}, err
@@ -155,7 +155,7 @@ func login() {
 		"username": {username},
 		"ip":       {"0.0.0.0"},
 	}
-	resp, err := get_jsonp("https://gw.buaa.edu.cn/cgi-bin/get_challenge", params)
+	resp, err := getJsonp("https://gw.buaa.edu.cn/cgi-bin/get_challenge", params)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -190,7 +190,7 @@ func login() {
 		"type":     {"1"},
 		"chksum":   {chksum},
 	}
-	resp, err = get_jsonp("https://gw.buaa.edu.cn/cgi-bin/srun_portal", params)
+	resp, err = getJsonp("https://gw.buaa.edu.cn/cgi-bin/srun_portal", params)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
