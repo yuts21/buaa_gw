@@ -156,6 +156,10 @@ func login() {
 	if username == "" {
 		fmt.Print("用户名：")
 		fmt.Scanln(&username)
+		if username == "" {
+			fmt.Println("请输入用户名")
+			os.Exit(1)
+		}
 	}
 	var password []byte
 	if *passwordStr == "" {
@@ -213,7 +217,7 @@ func login() {
 	ecode := resp["ecode"]
 	switch ecode.(type) {
 	case float64:
-		if resp["error_msg"] != nil {
+		if resp["error_msg"] != nil && resp["error_msg"] != "" {
 			fmt.Println("登录失败")
 			fmt.Println(resp["error_msg"].(string))
 		} else {
