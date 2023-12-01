@@ -213,11 +213,20 @@ func login() {
 	ecode := resp["ecode"]
 	switch ecode.(type) {
 	case float64:
-		fmt.Println("已登录")
-		fmt.Println(resp["suc_msg"].(string))
+		if resp["error_msg"] != nil {
+			fmt.Println("登录失败")
+			fmt.Println(resp["error_msg"].(string))
+		} else {
+			fmt.Println("已登录")
+			if resp["suc_msg"] != nil {
+				fmt.Println(resp["suc_msg"].(string))
+			}
+		}
 	case string:
 		fmt.Println("登录失败")
-		fmt.Println(resp["error_msg"].(string))
+		if resp["error_msg"] != nil {
+			fmt.Println(resp["error_msg"].(string))
+		}
 	}
 }
 
