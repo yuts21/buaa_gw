@@ -219,17 +219,21 @@ func login() {
 	case float64:
 		if resp["error_msg"] != nil && resp["error_msg"] != "" {
 			fmt.Println("登录失败")
-			fmt.Println(resp["error_msg"].(string))
+			if resp["error_msg"] != "" {
+				fmt.Println(resp["error_msg"])
+			} else {
+				fmt.Println(resp["error"])
+			}
 		} else {
 			fmt.Println("已登录")
 			if resp["suc_msg"] != nil {
-				fmt.Println(resp["suc_msg"].(string))
+				fmt.Println(resp["suc_msg"])
 			}
 		}
 	case string:
 		fmt.Println("登录失败")
 		if resp["error_msg"] != nil {
-			fmt.Println(resp["error_msg"].(string))
+			fmt.Println(resp["error_msg"])
 		}
 	}
 }
