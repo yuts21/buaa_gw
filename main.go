@@ -7,6 +7,7 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"golang.org/x/term"
 	"io"
@@ -18,6 +19,11 @@ import (
 	"strings"
 	"syscall"
 	"time"
+)
+
+var (
+	username    = flag.String("u", "", "set `username`")
+	passwordStr = flag.String("p", "", "set `password`")
 )
 
 func getJsonp(req_url string, params url.Values) (map[string]any, error) {
@@ -144,12 +150,18 @@ func getBase64(s string) string {
 
 func login() {
 	fmt.Println("BUAA网关登录")
-	fmt.Print("用户名：")
-	var username string
-	fmt.Scanln(&username)
-	fmt.Print("密码：")
-	password, _ := term.ReadPassword(int(syscall.Stdin))
-	fmt.Println("")
+	if username == "" {
+		fmt.Print("用户名：")
+		fmt.Scanln(&username)
+	}
+	var password []byte
+	if passwordStr == "" {
+		fmt.Print("密码：")
+		password, _ = term.ReadPassword(int(syscall.Stdin))
+		fmt.Println("")
+	} else {
+		password = []byte(passwordStr)
+	}
 
 	params := url.Values{
 		"username": {username},
@@ -207,5 +219,6 @@ func login() {
 }
 
 func main() {
+	flag.Parse()
 	login()
 }
