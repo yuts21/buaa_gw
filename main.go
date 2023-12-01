@@ -21,8 +21,13 @@ import (
 	"time"
 )
 
+const (
+	padchar = '='
+	alpha   = "LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA"
+)
+
 var (
-	username    = flag.String("u", "", "set `username`")
+	usernameStr = flag.String("u", "", "set `username`")
 	passwordStr = flag.String("p", "", "set `password`")
 )
 
@@ -122,9 +127,6 @@ func getXencode(msg, key string) string {
 	return lenCode(pwd)
 }
 
-const padchar = '='
-const alpha = "LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA"
-
 func getBase64(s string) string {
 	x := make([]byte, 0)
 	imax := len(s) - len(s)%3
@@ -150,17 +152,18 @@ func getBase64(s string) string {
 
 func login() {
 	fmt.Println("BUAA网关登录")
+	username := *usernameStr
 	if username == "" {
 		fmt.Print("用户名：")
 		fmt.Scanln(&username)
 	}
 	var password []byte
-	if passwordStr == "" {
+	if *passwordStr == "" {
 		fmt.Print("密码：")
 		password, _ = term.ReadPassword(int(syscall.Stdin))
 		fmt.Println("")
 	} else {
-		password = []byte(passwordStr)
+		password = []byte(*passwordStr)
 	}
 
 	params := url.Values{
